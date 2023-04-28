@@ -5,6 +5,7 @@ import Link from "next/link"
 import Header from "@/components/header"
 import Footer from '@/components/footer'
 import Note from '@/components/note';
+import Notes from "@/components/notes";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +22,12 @@ export default function Home() {
         <div>
           <Header></Header>
         </div>
-        <Note></Note>
+        {Notes.map((note) => (
+          <Note
+          key={note.key}
+          title={note.title}
+          content={note.content}
+        />))}
         <div>
           <Footer></Footer>
         </div>
