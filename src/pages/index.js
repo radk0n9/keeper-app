@@ -5,11 +5,27 @@ import Link from "next/link"
 import Header from "@/components/header"
 import Footer from '@/components/footer'
 import Note from '@/components/note';
-import Notes from "@/components/notes";
+import CreateArea from '@/components/createArea'
+import { useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const [notes, setNotes] = useState([]);
+
+  function addNote(newNote){
+    setNotes((prevNote)=>{return [...prevNote, newNote]})
+  }
+
+  function handleDelete(id){
+    setNotes((prevNotes)=>{
+      return prevNotes.filter((itemNote, index)=>{
+        return index !== id
+      })
+    })
+  }
+
   return (
     <>
       <Head>
@@ -22,12 +38,17 @@ export default function Home() {
         <div>
           <Header></Header>
         </div>
-        {Notes.map((note) => (
+        <CreateArea sendNote={addNote}/>
+        {notes.map((noteItem, index)=>{
+          return(
           <Note
-          key={note.key}
-          title={note.title}
-          content={note.content}
-        />))}
+            key={index}
+            id={index}
+            title={noteItem.title}
+            content={noteItem.content}
+            deleteNote={handleDelete}
+          />
+        )})}
         <div>
           <Footer></Footer>
         </div>
